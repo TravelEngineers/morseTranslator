@@ -9,7 +9,7 @@ import java.util.Scanner;
 import morse.MorseMap;
 
 /**
- * Class Coder
+ * Class MorseEncoder
  * 
  * @author Manuel Palomo <manuel_palomo@hotmail.es>
  * 
@@ -23,7 +23,7 @@ import morse.MorseMap;
  *
  */
 public class MorseEncoder {
-	private String filePath;
+	private String fileInputPath;
 	private MorseMap codes;
 
 	/**
@@ -34,7 +34,7 @@ public class MorseEncoder {
 	}
 
 	public MorseEncoder(String filePath, MorseMap codes) {
-		this.filePath = filePath;
+		this.fileInputPath = filePath;
 		this.codes = codes;
 	}
 
@@ -44,11 +44,11 @@ public class MorseEncoder {
 	 * 
 	 * If the file already exists, PrintWriter will truncate it
 	 */
-	public void encodeText(String outputFileName) {
+	public void encode(String outputFileName) {
 		Scanner scanner;
 		try {
 			// Open the file
-			scanner = new Scanner(new File(filePath));
+			scanner = new Scanner(new File(fileInputPath));
 			// Create the file to be written
 			PrintWriter writer = new PrintWriter(outputFileName, "UTF-8");
 
@@ -62,18 +62,17 @@ public class MorseEncoder {
 					String wordEncoded = "";
 					String word = wordsInLine[i].toUpperCase();
 					// Encoding each char in the String
-					for (int c = 0; c < word.length(); c++) {
-						wordEncoded = wordEncoded + codes.getLetterCode(word.charAt(c)) + " ";
+					for (int j = 0; j < word.length(); j++) {
+						wordEncoded = wordEncoded + codes.getLetterCode(word.charAt(j)) + " ";
 					}
 					// Finally paste the word into the line String adding a
 					// double space
 					wordEncoded = wordEncoded + "  ";
 					lineEncoded = lineEncoded + wordEncoded;
-					System.out.println(lineEncoded);
 
-					// Write the line to the file
-					writer.println(lineEncoded);
 				}
+				// Write the line to the file
+				writer.println(lineEncoded);
 
 			}
 			// Close the open streams

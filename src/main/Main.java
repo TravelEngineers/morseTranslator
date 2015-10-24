@@ -1,6 +1,7 @@
 package main;
 
 import morse.MorseMap;
+import operation.MorseDecoder;
 import operation.MorseEncoder;
 import utils.Cons;
 
@@ -44,18 +45,22 @@ public class Main {
 
 			}
 			MorseMap morse = new MorseMap(morseSystem);
+			String outputFileName = "morseoutput.txt";
+			if (args[3] != null) {
+				outputFileName = args[3];
+			}
 			switch (args[0]) {
 			case "-c": // Encode
 				MorseEncoder encoder = new MorseEncoder(args[2], morse);
-				String outputFileName = "morseoutput.txt";
-				if (args[3] != null) {
-					outputFileName = args[3];
-				}
-				encoder.encodeText(outputFileName);
-				System.exit(-1);
+				encoder.encode(outputFileName);
+				
 				break;
 
 			case "-d":// Decode
+				morse.fillMapWithInternationalCodeReversed();
+				MorseDecoder decoder = new MorseDecoder(args[2], morse);
+				decoder.decode(outputFileName);
+				System.exit(-1);
 				break;
 
 			case "-p":// Play
