@@ -1,9 +1,17 @@
 package operation;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Scanner;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
+
+import utils.Cons;
 
 /**
  * Handles the morse sound
@@ -18,26 +26,55 @@ public class Player {
 		this.fileInputPath = fileInputpath;
 	}
 
-	public void soundGenerator(int hertz, int milliseconds) {
-		byte[] buffer=new byte[1];
-		float frequency = 44100; // Default sound frequency used in most places
+	/**
+	 * Generates a sound specified by it's parameters using a sinusoidal wave
+	 * 
+	 * @param hertz
+	 *            Frecuency of the sounds
+	 * @param millis
+	 *            Total time the sound will be played
+	 */
+	private void soundGenerator(int hertz, int millis) {
+		byte[] audioBuffer = new byte[1];
 
-		AudioFormat sound = new AudioFormat(frequency, 8, 1, true, false);
-
+		AudioFormat audio = new AudioFormat(Cons.SAMPLERATE, 8, 1, true, false);
 		try {
-			SourceDataLine dataLine = AudioSystem.getSourceDataLine(sound);
-			dataLine.open(sound);
+			SourceDataLine dataLine = AudioSystem.getSourceDataLine(audio);
+			dataLine.open(audio);
 			dataLine.start();
 
-			// Generate the audio
-			for (int i = 0; i < milliseconds * frequency / 1000; i++) {
-				double angle = i / (frequency / hertz) * 2.0 * Math.PI;
-				buffer[0] = (byte)(Math.sin(angle) * 100);
-				
-				dataLine.write(buffer, 0, 1);
+			for (int i = 0; i < millis * 8; i++) {
+				double angle = i / (Cons.SAMPLERATE / hertz) * 2.0 * Math.PI;
+				audioBuffer[0] = (byte) (Math.sin(angle) * 120.0 * 100);
+				dataLine.write(audioBuffer, 0, 1);
 			}
+			dataLine.drain();
+			dataLine.stop();
+			dataLine.close();
+
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public void play() {
+		Scanner scanner;
+		try {
+			// Open the file
+			scanner = new Scanner(new File(fileInputPath));
+
+			while (scanner.hasNextLine()) {
+				String lineDecoded = "";
+				String line = scanner.nextLine();
+
+			}
+
+			// Close the open streams
+			scanner.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
