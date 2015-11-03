@@ -5,45 +5,25 @@ import java.util.HashMap;
 import utils.Cons;
 
 /**
- * @author Manuel Palomo <manuel_palomo@hotmail.es> Class MorseDictionary This
- *         is a data structure containing all the necessary methods for handling
- *         morse to text translation It varies in content depending on what
- *         morse system is used(international or extended)
+ * Class MorseDictionary This is a data structure containing all the necessary
+ * methods for handling morse to text translation It varies in content depending
+ * on what morse system is used(international or extended)
  * 
- *         Extended has non-English variants Dot(.) and dash (-)
+ * Extended has non-English variants Dot(.) and dash (-)
+ * 
+ * 
+ * @author Manuel Palomo <manuel_palomo@hotmail.es>
+ * 
  * 
  */
 public class MorseMap {
 	private HashMap<String, String> codes;
 	private String morseSystem;
 
-	/**
-	 * Default constructor, if no system is inputed, default is international
-	 * system
-	 */
 	public MorseMap() {
 		this.morseSystem = Cons.INTERNATIONAL;
 		codes = new HashMap<String, String>();
-	}
-
-	/**
-	 * If a boolean is provided, create and load the map with the corresponding
-	 * codes
-	 * 
-	 * @param morseSystem
-	 */
-	public MorseMap(String morseSystem) {
-		this.morseSystem = morseSystem;
-		codes = new HashMap<String, String>();
-		switch (morseSystem) {
-		case Cons.EXTENDED:
-			fillMapWithExtendedCode();
-			break;
-		case Cons.INTERNATIONAL:
-			fillMapWithInternationalCode();
-			break;
-		}
-
+		fillMapWithInternationalCode();
 	}
 
 	/**
@@ -139,73 +119,6 @@ public class MorseMap {
 		codes.put("---..", "8");
 		codes.put("----.", "9");
 		codes.put("-----", "0");
-	}
-
-	/**
-	 * Fills the map passed as parameter with the Extended morse codes
-	 * 
-	 */
-	public void fillMapWithExtendedCode() {
-		codes.put("A", ".-");
-		codes.put("B", "-...");
-		codes.put("C", "-.-.");
-		codes.put("D", "-..");
-		codes.put("E", ".");
-		codes.put("F", "..-.");
-		codes.put("G", "--.");
-		codes.put("H", "....");
-		codes.put("I", "..");
-		codes.put("J", ".---");
-		codes.put("K", "-.-");
-		codes.put("L", ".-..");
-		codes.put("M", "--");
-		codes.put("N", "-.");
-		codes.put("O", "---");
-		codes.put("P", ".--.");
-		codes.put("Q", "--.-");
-		codes.put("R", ".-.");
-		codes.put("S", "...");
-		codes.put("T", "-");
-		codes.put("U", "..-");
-		codes.put("V", "...-");
-		codes.put("W", ".--");
-		codes.put("X", "-..-");
-		codes.put("Y", "-.--");
-		codes.put("Z", "--..");
-		codes.put("1", ".----");
-		codes.put("2", "..---");
-		codes.put("3", "...--");
-		codes.put("4", "....-");
-		codes.put("5", ".....");
-		codes.put("6", "-....");
-		codes.put("7", "--...");
-		codes.put("8", "---..");
-		codes.put("9", "----.");
-		codes.put("0", "-----");
-		codes.put(".", ".-.-.-");
-		codes.put(",", "--..--");
-		codes.put("?", "..--..");
-		codes.put("'", ".----.");
-		codes.put("!", "-.-.--");
-		codes.put("/", "-..-.");
-		codes.put("(", "-.--.");
-		codes.put(")", "-.--.-");
-		codes.put("&", ".-...");
-		codes.put(":", "---...");
-		codes.put(";", "-.-.-.");
-		codes.put("=", "-...-");
-		codes.put("+", ".-.-.");
-		codes.put("-", "-....-");
-		codes.put("_", "..--.-");
-		codes.put("\"ROM\"", ".-..-."); // "
-		codes.put("$", "...-..-");
-		codes.put("@", ".--.-.");
-		codes.put("ç", "-.-..");
-		codes.put("é", "..-..");
-		codes.put("ó", "---.");
-		codes.put("", "");
-		codes.put("", "");
-
 	}
 
 	/**
