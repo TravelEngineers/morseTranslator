@@ -2,8 +2,6 @@ package operation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
 
 import javax.sound.sampled.AudioFormat;
@@ -27,7 +25,7 @@ public class Player {
 	}
 
 	/**
-	 * Generates a sound specified by it's parameters using a sinusoidal wave
+	 * Generates a sound specified by it's parameters
 	 * 
 	 * @param hertz
 	 *            Frecuency of the sounds
@@ -45,7 +43,8 @@ public class Player {
 
 			for (int i = 0; i < millis * 8; i++) {
 				double angle = i / (Cons.SAMPLERATE / hertz) * 2.0 * Math.PI;
-				audioBuffer[0] = (byte) (Math.sin(angle) * 120.0 * 100);
+				audioBuffer[0] = (byte) (angle);
+
 				dataLine.write(audioBuffer, 0, 1);
 			}
 			dataLine.drain();
@@ -57,22 +56,41 @@ public class Player {
 		}
 	}
 
+	/**
+	 * Reads the file and generates a tone for each of it's characters
+	 */
 	public void play() {
 		Scanner scanner;
 		try {
-			// Open the file
 			scanner = new Scanner(new File(fileInputPath));
 
 			while (scanner.hasNextLine()) {
-				String lineDecoded = "";
 				String line = scanner.nextLine();
+				char[] characters = line.toCharArray();
+				for (char character : characters) {
+					if (character == '.') {
+						soundGenerator(Cons.morseFrequency, Cons.morseUnitDotTime);
+					} else if (character == '-') {
+						soundGenerator(Cons.morseFrequency, Cons.morseUnitDashTime);
+					} else {
+						try {
+							Thread.sleep(Cons.morseUnitDashTime);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+
+				}
 
 			}
 
-			// Close the open streams
 			scanner.close();
 
-		} catch (FileNotFoundException e) {
+		} catch (
+
+		FileNotFoundException e)
+
+		{
 			e.printStackTrace();
 		}
 	}

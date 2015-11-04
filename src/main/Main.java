@@ -3,6 +3,7 @@ package main;
 import morse.MorseMap;
 import operation.Decoder;
 import operation.Encoder;
+import operation.Player;
 import utils.Cons;
 
 /**
@@ -19,31 +20,31 @@ import utils.Cons;
  */
 public class Main {
 	public static void main(String[] args) {
-		if (args.length != 2) {
+		if (args.length < 2) {
 			System.out.println("Incorrect number of arguments given. Usage: <mode><pathToFile>");
 			System.exit(-1);
 		} else {
-			
 			MorseMap morse = new MorseMap();
 			String outputFileName = "morseoutput.txt";
-			if (args[2] != null) {
+			if (args.length==3 && args[2] != null) {
 				outputFileName = args[2];
 			}
 			switch (args[0]) {
 			case "-c": // Encode
-				Encoder encoder = new Encoder(args[2], morse);
+				Encoder encoder = new Encoder(args[1], morse);
 				encoder.encode(outputFileName);
 
 				break;
 
 			case "-d":// Decode
 				morse.fillMapWithInternationalCodeReversed();
-				Decoder decoder = new Decoder(args[2], morse);
+				Decoder decoder = new Decoder(args[1], morse);
 				decoder.decode(outputFileName);
-				System.exit(-1);
 				break;
 
 			case "-p":// Play
+				Player player = new Player(args[1]);
+				player.play();
 				break;
 
 			default:

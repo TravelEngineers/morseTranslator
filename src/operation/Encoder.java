@@ -60,7 +60,7 @@ public class Encoder {
 				// Encoding each word separately
 				for (int i = 0; i < wordsInLine.length; i++) {
 					String wordEncoded = "";
-					String word = wordsInLine[i].toUpperCase();
+					String word = wordsInLine[i].toUpperCase().replaceAll("[^\\p{ASCII}]", "");;
 					// Encoding each char in the String
 					for (int j = 0; j < word.length(); j++) {
 						wordEncoded = wordEncoded + codes.getLetterCode(word.charAt(j)) + " ";
